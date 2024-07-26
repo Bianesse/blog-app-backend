@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PostControllerApi extends Controller
 {
@@ -77,6 +78,17 @@ class PostControllerApi extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try
+        {
+            Post::findOrFail($id)->delete();
+            return response()->json([
+                'message' => 'Post deleted successfully.',
+            ], 200);
+
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Post not found.',
+            ], 404);
+        }
     }
 }

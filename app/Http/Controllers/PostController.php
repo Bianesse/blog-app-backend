@@ -73,24 +73,42 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit(Post $post, string $id)
     {
-        //
+        $data = Post::findOrFail($id);
+        return view('formEdit', ['placeholder' => $data])->with("success","");
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(Request $request)
     {
-        //
+        $headers = [
+            'Content-Type' => 'application/json',
+        ];
+        $parameter = 
+        [
+            'title' => $request->title,
+            'content' => $request->content,
+        ];
+        $client = new Client();
+        $url = "http://blog-app.test/api/post/edit/$request->id";
+        $respond = $client->post($url, [
+            'headers' => $headers,
+            'json' => $parameter,
+        ]);
+        return redirect()->route('home')->with('success','Successfully Edited data');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post, string $id)
     {
-        //
+        $client = new Client();
+        $url = "http://blog-app.test/api/post/delete/$id";
+        $respond = $client->delete($url);
+        return redirect()->back()->with('success','Successfully deleted data');
     }
 }

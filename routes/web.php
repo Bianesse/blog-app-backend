@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [PostController::class, 'webShow'])->name('home');
 
 Route::get('/post', [PostController::class, 'webShow'])->name('webShow');
 Route::post('/post/insert', [PostController::class,'create'])->name('insert');
+Route::get('/post/delete/{id}', [PostController::class,'destroy'])->name('delete');
+Route::get('/post/edit/{id}', [PostController::class,'edit'])->name('edit');
+Route::post('/post/update', [PostController::class,'update'])->name('update');
 
