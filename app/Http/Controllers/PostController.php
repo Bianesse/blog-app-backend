@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
+use App\Http\Resources\PostResource;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-use App\Http\Resources\PostResource;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -14,18 +17,41 @@ class PostController extends Controller
      */
     public function index()
     {
-        $query = Post::with(['users' => function ($query) {
-            $query->select('id', 'name');
-        }, 'comments'])->get();//->findOrFail(2);
-        return PostResource::collection($query);
+        
+    }
+
+    public function webShow()
+    {
+        $client = new Client();
+        $url = "http://blog-app.test/api/post";
+        $respond = $client->get($url);
+        $content = $respond->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $data = $contentArray['data'];
+        return view('welcome', ['postList' => $data])->with("success","");
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $headers = [
+            'Content-Type' => 'application/json',
+        ];
+        $parameter = 
+        [
+            'title' => $request->title,
+            'author' => $request->author,
+            'content' => $request->content,
+        ];
+        $client = new Client();
+        $url = "http://blog-app.test/api/post/insert";
+        $respond = $client->post($url, [
+            'headers' => $headers,
+            'json' => $parameter,
+        ]);
+        return redirect()->back()->with('success','Successfully inputed data');
     }
 
     /**

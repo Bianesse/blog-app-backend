@@ -13,6 +13,10 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title', 'author', 'content'
+    ];
+
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
@@ -20,7 +24,7 @@ class Post extends Model
 
     public function users(): BelongsTo
     {
-        return $this->belongsTo(User::class, foreignKey:"id");
+        return $this->belongsTo(User::class, 'author');
     }
 
     
