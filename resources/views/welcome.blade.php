@@ -12,6 +12,9 @@
 
 <body class="bg-light">
     <main class="container">
+        <a href="{{ route('logout') }}" onclick="return confirm('Are you sure?');" class="nav-link">
+            <button type="button" class="btn btn-danger">Logout</button>
+          </a>
         @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -30,7 +33,7 @@
                 <div class="mb-3 row">
                     <label for="nama" class="col-sm-2 col-form-label">Author</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name='author' id="pengarang">
+                        <input type="text" class="form-control" name='author' id="pengarang" value="{{$token['token']}}" readonly>
                     </div>
                 </div>
                 <div class="mb-3 row">

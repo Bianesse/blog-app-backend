@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PostController::class, 'webShow'])->name('home');
+
+Route::view('/login', 'Login.login')->name('login');
+Route::post('/login/check', [LoginController::class, 'login'])->name('checkLogin');
+Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
 
 Route::get('/post', [PostController::class, 'webShow'])->name('webShow');
 Route::post('/post/insert', [PostController::class,'create'])->name('insert');
