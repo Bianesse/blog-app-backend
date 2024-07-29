@@ -20,11 +20,18 @@ class PostController extends Controller
         
     }
 
-    public function webShow()
+    public function webShow(Request $request)
     {
+        $token = $request->bearerToken();
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer '.$token
+        ];
         $client = new Client();
         $url = "http://blog-app.test/api/post";
-        $respond = $client->get($url);
+        $respond = $client->get($url, [
+            'headers' => $headers
+        ]);
         $content = $respond->getBody()->getContents();
         $contentArray = json_decode($content, true);
         $data = $contentArray['data'];
@@ -36,8 +43,10 @@ class PostController extends Controller
      */
     public function create(Request $request)
     {
+        $token = $request->bearerToken();
         $headers = [
             'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer '.$token
         ];
         $parameter = 
         [
@@ -84,8 +93,10 @@ class PostController extends Controller
      */
     public function update(Request $request)
     {
+        $token = $request->bearerToken();
         $headers = [
             'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer '.$token
         ];
         $parameter = 
         [

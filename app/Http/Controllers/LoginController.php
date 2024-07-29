@@ -24,7 +24,10 @@ class LoginController extends Controller
         ]);
         $content = $respond->getBody()->getContents();
         $contentArray = json_decode($content, true);
-        $data = $contentArray['user'];
+        $data = $contentArray['token'];
+
+        $request->headers->set('Authorization', 'Bearer ' . $data);
+
         return redirect()->route('home')->with('success','Successfully Login');
     }
 

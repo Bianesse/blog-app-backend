@@ -8,24 +8,25 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthMiddleware
+class AuthWebMiddleware
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$guard): Response
     {
         try {
+            //$token = $request->bearerToken();
             $user = JWTAuth::parseToken()->authenticate();
             if (!$user) {
-                return response()->json(['message' => 'user not found'], 500);
+                return redirect()->route("login")->with("status","User not found!");
             }
         } catch (JWTException $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
+                return redirect()->route("login")->with("status","You haven't log in!");
         }
-       
+        
         /* try{
             $jwtCookie = $request->cookie("jwt");
             if($jwtCookie === null) {
@@ -37,7 +38,6 @@ class AuthMiddleware
         
        $request->headers->set('Authorization', "Bearer " . $jwtCookie); */
 
-        return $next($request); 
-
+        return $next($request);
     }
 }
