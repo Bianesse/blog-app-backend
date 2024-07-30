@@ -33,34 +33,31 @@ class LoginControllerApi extends Controller
         $credentials = $request->only('email', 'password');
 
         //if auth failed
-        if(!$token = auth()->guard('api')->attempt($credentials)) {
+        if (!$token = auth()->guard('api')->attempt($credentials)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Email atau Password Anda salah'
             ], 401);
         }
 
-        $cookie = cookie('jwt' ,$token, 60);
-        $request->headers->set('Authorization', "Bearer " . $token);
+        $cookie = cookie('jwt', $token, 60);
+        $request->headers->set('Authorization',  $token);
 
         /* return response()->json([
             'success' => true,
             'user'    => auth()->guard('api')->user(),    
             'token'   => $token
         ], 200)->withCookie($cookie); */
-        return $this->newToken($token);
-    }
-
-    public function newToken($token){
         return response()->json([
             'success' => true,
-            'user'    => auth()->user(),    
+            'user'    => auth()->guard('api')->user(),
             'token'   => $token,
             'token_type'   => 'bearer',
         ], 200);
     }
 
-    public function regis(Request $request){
+    public function regis(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email'     => 'required',
@@ -82,25 +79,25 @@ class LoginControllerApi extends Controller
         return response()->json(['message' => 'Successfully created an account']);
     }
 
-    public function logout(){
+    public function logout()
+    {
         /* try {
             $cookie = cookie('jwt' , NULL);
             return response()->json(['message' => 'Successfully logged out'])->withCookie($cookie);
         } catch (JWTException $e) {
             return response()->json(['error' => 'Could not log out'], 500);
         } */
-       
+
         try {
             // Parse the token from the request
             $token = JWTAuth::parseToken();
-            
+
             // Invalidate the token
             $token->invalidate();
-            
+
             return response()->json(['message' => 'Successfully logged out']);
         } catch (JWTException $e) {
             return response()->json(['error' => 'Could not log out'], 500);
         }
     }
-
 }

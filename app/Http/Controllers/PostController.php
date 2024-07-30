@@ -22,7 +22,7 @@ class PostController extends Controller
 
     public function webShow(Request $request)
     {
-        $token = $request->bearerToken();
+        $token = $request->header("Authorization");
         $headers = [
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer '.$token
@@ -43,7 +43,7 @@ class PostController extends Controller
      */
     public function create(Request $request)
     {
-        $token = $request->bearerToken();
+        $token = $request->header("Authorization");
         $headers = [
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer '.$token
@@ -93,7 +93,7 @@ class PostController extends Controller
      */
     public function update(Request $request)
     {
-        $token = $request->bearerToken();
+        $token = $request->header("Authorization");
         $headers = [
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer '.$token

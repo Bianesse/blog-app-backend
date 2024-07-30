@@ -26,13 +26,13 @@ class LoginController extends Controller
         $contentArray = json_decode($content, true);
         $data = $contentArray['token'];
 
-        $request->headers->set('Authorization', 'Bearer ' . $data);
+        $request->headers->set('Authorization', $data);
 
         return redirect()->route('home')->with('success','Successfully Login');
     }
 
     public function logout(Request $request){
-        $token = $request->bearerToken();
+        $token = $request->header("Authorization");
         $headers = [
             'Content-Type' => 'application/json',
             'Authorizaton' => 'Bearer '. $token

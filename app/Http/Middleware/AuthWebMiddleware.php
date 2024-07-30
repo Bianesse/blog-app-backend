@@ -18,9 +18,9 @@ class AuthWebMiddleware
     public function handle(Request $request, Closure $next, ...$guard): Response
     {
         try {
-            //$token = $request->bearerToken();
-            $user = JWTAuth::parseToken()->authenticate();
-            if (!$user) {
+            $token = $request->header("Authorization");
+            $token = JWTAuth::parseToken()->authenticate();
+            if (!$token) {
                 return redirect()->route("login")->with("status","User not found!");
             }
         } catch (JWTException $e) {

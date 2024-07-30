@@ -41,6 +41,8 @@ class PostControllerApi extends Controller
             'author'     => $request->author,
             'content'   => $request->content,
         ]);
+
+        return response()->json($post);
     }
 
     /**
@@ -71,6 +73,8 @@ class PostControllerApi extends Controller
             'title'     => $request->title,
             'content'   => $request->content,
         ]);
+
+        return response()->json($post);
     }
 
     /**
