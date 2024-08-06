@@ -33,7 +33,7 @@
                 <div class="mb-3 row">
                     <label for="nama" class="col-sm-2 col-form-label">Author</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name='author' id="pengarang" value="{{$token['token']}}" readonly>
+                        <input type="text" class="form-control" name='author' id="pengarang" value="{{ auth()->user()->name }}" readonly>
                     </div>
                 </div>
                 <div class="mb-3 row">

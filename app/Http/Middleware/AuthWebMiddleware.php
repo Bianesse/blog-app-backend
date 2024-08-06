@@ -17,26 +17,26 @@ class AuthWebMiddleware
      */
     public function handle(Request $request, Closure $next, ...$guard): Response
     {
-        try {
-            $token = $request->header("Authorization");
+        /* try {
             $token = JWTAuth::parseToken()->authenticate();
             if (!$token) {
                 return redirect()->route("login")->with("status","User not found!");
             }
         } catch (JWTException $e) {
                 return redirect()->route("login")->with("status","You haven't log in!");
-        }
+        } */
         
-        /* try{
+        try{
             $jwtCookie = $request->cookie("jwt");
-            if($jwtCookie === null) {
-                return response()->json(['message' => 'Cookie not found'], 500);
+            if($jwtCookie == null) {
+                return redirect()->route("login");
          }
         }catch (JWTException $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
         
-       $request->headers->set('Authorization', "Bearer " . $jwtCookie); */
+        //INI PENTING BANGET JANGAN AMPE KELEWAT
+        $request->headers->set('Authorization', "Bearer " . $jwtCookie);
 
         return $next($request);
     }

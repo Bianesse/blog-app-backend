@@ -11,6 +11,7 @@ class LoginController extends Controller
         $headers = [
             'Content-Type' => 'application/json',
         ];
+
         $parameter = 
         [
             'email' => $request->email,
@@ -26,22 +27,23 @@ class LoginController extends Controller
         $contentArray = json_decode($content, true);
         $data = $contentArray['token'];
 
-        $request->headers->set('Authorization', $data);
+        $cookie = cookie('jwt', $data, 60);
 
-        return redirect()->route('home')->with('success','Successfully Login');
+        return redirect()->route('home')->with('success','Successfully Login')->withCookie($cookie);
     }
 
     public function logout(Request $request){
-        $token = $request->header("Authorization");
+        $token = $request->cookie('jwt');
         $headers = [
             'Content-Type' => 'application/json',
-            'Authorizaton' => 'Bearer '. $token
+            'Authorization' => 'Bearer '. $token
         ];
         $client = new Client();
         $url = "http://blog-app.test/api/logout";
         $respond = $client->post($url, [
             "headers" => $headers
         ]);
-        return redirect()->route('/login')->with('success','Successfully Logout');
+        $cookie = cookie('jwt' , NULL);
+        return redirect()->route('login')->with('success','Successfully Logout')->withCookie($cookie);
     }
 }

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/login', 'Login.login')->name('login');
 Route::post('/login/check', [LoginController::class, 'login'])->name('checkLogin');
 
-//Route::middleware("auth.web")->group(function () {
+Route::middleware("auth.web")->group(function () {
     Route::get('/', [PostController::class, 'webShow'])->name('home');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/post', [PostController::class, 'webShow'])->name('webShow');
@@ -27,4 +27,8 @@ Route::post('/login/check', [LoginController::class, 'login'])->name('checkLogin
     Route::get('/post/delete/{id}', [PostController::class, 'destroy'])->name('delete');
     Route::get('/post/edit/{id}', [PostController::class, 'edit'])->name('edit');
     Route::post('/post/update', [PostController::class, 'update'])->name('update');
-//});
+});
+
+Route::middleware('auth.web')->get('/user', function () {
+    return auth()->user();
+})->name('user');

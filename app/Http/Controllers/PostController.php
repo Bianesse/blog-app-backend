@@ -22,7 +22,7 @@ class PostController extends Controller
 
     public function webShow(Request $request)
     {
-        $token = $request->header("Authorization");
+        $token = $request->cookie('jwt');
         $headers = [
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer '.$token

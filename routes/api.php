@@ -28,6 +28,6 @@ Route::post('/login',[LoginControllerApi::class, 'index']);
 Route::post('/registration',[LoginControllerApi::class, 'regis']);
 Route::post('/logout',[LoginControllerApi::class, 'logout']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth.login')->get('/user', function () {
+    return auth()->user();
 });

@@ -40,9 +40,6 @@ class LoginControllerApi extends Controller
             ], 401);
         }
 
-        $cookie = cookie('jwt', $token, 60);
-        $request->headers->set('Authorization',  $token);
-
         /* return response()->json([
             'success' => true,
             'user'    => auth()->guard('api')->user(),    
@@ -90,11 +87,10 @@ class LoginControllerApi extends Controller
 
         try {
             // Parse the token from the request
-            $token = JWTAuth::parseToken();
+            //$token = JWTAuth::parseToken();
 
             // Invalidate the token
-            $token->invalidate();
-
+            auth('api')->logout();
             return response()->json(['message' => 'Successfully logged out']);
         } catch (JWTException $e) {
             return response()->json(['error' => 'Could not log out'], 500);
