@@ -12,9 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         
@@ -38,9 +35,6 @@ class PostController extends Controller
         return view('welcome', ['postList' => $data])->with("success","");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Request $request)
     {
         $token = $request->header("Authorization");
@@ -63,34 +57,12 @@ class PostController extends Controller
         return redirect()->back()->with('success','Successfully inputed data');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePostRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Post $post, string $id)
     {
         $data = Post::findOrFail($id);
         return view('formEdit', ['placeholder' => $data])->with("success","");
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request)
     {
         $token = $request->header("Authorization");
@@ -105,21 +77,47 @@ class PostController extends Controller
         ];
         $client = new Client();
         $url = "http://blog-app.test/api/post/edit/$request->id";
-        $respond = $client->post($url, [
+        $respond = $client->put($url, [
             'headers' => $headers,
             'json' => $parameter,
         ]);
         return redirect()->route('home')->with('success','Successfully Edited data');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Post $post, string $id)
+    public function destroy(Request $request, string $id)
     {
+        $token = $request->header("Authorization");
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer '.$token
+        ];
         $client = new Client();
         $url = "http://blog-app.test/api/post/delete/$id";
-        $respond = $client->delete($url);
+        $respond = $client->delete($url, [
+            'headers' => $headers,
+        ]);
         return redirect()->back()->with('success','Successfully deleted data');
+    }
+
+    public function commentInsert(Request $request)
+    {
+        $token = $request->header("Authorization");
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer '.$token
+        ];
+        $parameter = 
+        [
+            //'post_id' => $request->id,
+            //'author' => auth()->user()->id,
+            'comment' => $request->comment,
+        ];
+        $client = new Client();
+        $url = "http://blog-app.test/api/comment/insert/$request->id";
+        $respond = $client->post($url, [
+            'headers' => $headers,
+            'json' => $parameter,
+        ]);
+        return redirect()->back()->with('success','Successfully inputed data');
     }
 }

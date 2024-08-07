@@ -20,6 +20,7 @@
         <!-- START FORM -->
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <form action='{{route('update')}}' method='post'>
+                @method('PUT')
                 <input type="hidden" value="{{ $placeholder->id }}" name="id">
                 @csrf
                 <div class="mb-3 row">

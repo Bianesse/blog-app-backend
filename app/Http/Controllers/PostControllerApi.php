@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -19,9 +20,6 @@ class PostControllerApi extends Controller
         return PostResource::collection($query);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -45,17 +43,6 @@ class PostControllerApi extends Controller
         return response()->json($post);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
@@ -77,10 +64,7 @@ class PostControllerApi extends Controller
         return response()->json($post);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         try
         {
@@ -94,5 +78,26 @@ class PostControllerApi extends Controller
                 'message' => 'Post not found.',
             ], 404);
         }
+    }
+
+    public function commentInsert(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'comment'   => 'required',
+        ]);
+
+        //check if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        //create post
+        $post = Comment::create([
+            'post_id' => $id,
+            'author' => auth()->user()->id,
+            'comment'   => $request->comment,
+        ]);
+
+        return response()->json($post);
     }
 }

@@ -24,9 +24,10 @@ Route::middleware("auth.web")->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/post', [PostController::class, 'webShow'])->name('webShow');
     Route::post('/post/insert', [PostController::class, 'create'])->name('insert');
-    Route::get('/post/delete/{id}', [PostController::class, 'destroy'])->name('delete');
+    Route::delete('/post/delete/{id}', [PostController::class, 'destroy'])->name('delete');
     Route::get('/post/edit/{id}', [PostController::class, 'edit'])->name('edit');
-    Route::post('/post/update', [PostController::class, 'update'])->name('update');
+    Route::put('/post/update', [PostController::class, 'update'])->name('update');
+    Route::post('/comment/insert/{id}', [PostController::class,'commentInsert'])->name('commentInsert');
 });
 
 Route::middleware('auth.web')->get('/user', function () {

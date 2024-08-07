@@ -19,8 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware("auth.login")->group(function () {
     Route::get('/post', [PostControllerApi::class,'index']);
     Route::post('/post/insert', [PostControllerApi::class,'store']);
-    Route::post('/post/edit/{id}', [PostControllerApi::class,'update']);
+    Route::put('/post/edit/{id}', [PostControllerApi::class,'update']);
     Route::delete('/post/delete/{id}', [PostControllerApi::class,'destroy']);
+    Route::post('/post/insert', [PostControllerApi::class,'store']);
+    Route::post('/comment/insert/{id}', [PostControllerApi::class,'commentInsert']);
 });
 
 
