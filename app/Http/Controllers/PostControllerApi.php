@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostCollection;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
@@ -17,7 +18,13 @@ class PostControllerApi extends Controller
     public function index()
     {
         $query = Post::with(['users' , 'comments'])->get();//->findOrFail(2);
-        return PostResource::collection($query);
+        return new PostCollection($query);
+    }
+
+    public function detail()
+    {
+        $query = Post::with(['users' , 'comments'])->findOrFail(2);
+        return new PostResource($query);
     }
 
     public function store(Request $request)

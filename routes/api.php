@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::middleware("auth.login")->group(function () {
     Route::get('/post', [PostControllerApi::class,'index']);
+    Route::get('/post/{id}', [PostControllerApi::class,'detail']);
     Route::post('/post/insert', [PostControllerApi::class,'store']);
     Route::put('/post/edit/{id}', [PostControllerApi::class,'update']);
     Route::delete('/post/delete/{id}', [PostControllerApi::class,'destroy']);

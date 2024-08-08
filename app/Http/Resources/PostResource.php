@@ -22,6 +22,7 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'author' => $this->users->name,
+            'created_at' => $this->created_at,
             'comments' => $cRaw->map(function ($comment) {
         return [
             'id' => $comment->id,

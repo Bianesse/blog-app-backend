@@ -1,4 +1,8 @@
 @extends('Layouts.mainLayout')
+@push('styles')
+    <link href="{{ asset('assets/css/postCard.css') }}" rel="stylesheet">
+@endpush
+
 <x-navbar></x-navbar>
 @section('content')
 <main class="container">
@@ -102,6 +106,44 @@
         </table>
 
     </div>
+
+    {{-- <div class="row mt-n5">
+        @foreach ($postList as $v)
+            <div class="col-md-6 col-lg-4 mt-5 wow fadeInUp" data-wow-delay=".2s"
+                style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                <div class="blog-grid">
+                    <div class="blog-grid-img position-relative"><img alt="img"
+                            src="https://www.bootdey.com/image/480x480/00FFFF/000000"></div>
+                    <div class="blog-grid-text p-4">
+                        <h3 class="h5 mb-3"><a href="{{ route('detailPost' , ['id'=>$v['id']]) }}">{{ $v['title'] }}</a></h3>
+                        <p class="display-30">{{$v['content']}}</p>
+                        <div class="meta meta-style2">
+                            <ul>
+                                <li><a href="#"><i class="fas fa-calendar-alt"></i>
+                                        {{$v['created_at']}}
+                                    </a></li>
+                                <li><a href="#"><i class="fas fa-user"></i> User</a></li>
+                                <li><a href="#"><i class="fas fa-comments"></i> 38</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+
+    <div class="row mt-6 wow fadeInUp" data-wow-delay=".6s"
+        style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
+        <div class="col-12">
+            <div class="pagination text-small text-uppercase text-extra-dark-gray">
+                <div class="d-flex justify-content-center">
+                    {{ $postList->links('vendor.pagination.bootstrap-4') }}
+                </div>
+            </div>
+        </div>
+    </div> --}}
     <!-- AKHIR DATA -->
 </main>
 

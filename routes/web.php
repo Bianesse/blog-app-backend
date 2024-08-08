@@ -22,12 +22,17 @@ Route::post('/login/check', [LoginController::class, 'login'])->name('checkLogin
 Route::middleware("auth.web")->group(function () {
     Route::get('/', [PostController::class, 'webShow'])->name('home');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-    Route::get('/post', [PostController::class, 'webShow'])->name('webShow');
-    Route::post('/post/insert', [PostController::class, 'create'])->name('insert');
-    Route::delete('/post/delete/{id}', [PostController::class, 'destroy'])->name('delete');
-    Route::get('/post/edit/{id}', [PostController::class, 'edit'])->name('edit');
-    Route::put('/post/update', [PostController::class, 'update'])->name('update');
-    Route::post('/comment/insert/{id}', [PostController::class,'commentInsert'])->name('commentInsert');
+
+    Route::post('/comment/insert/{id}', [PostController::class, 'commentInsert'])->name('commentInsert');
+
+    Route::prefix('post')->group(function () {
+        Route::get('/{id}', [PostController::class, 'showComment'])->name('detailPost');
+        Route::get('/', [PostController::class, 'webShow'])->name('webShow');
+        Route::post('/insert', [PostController::class, 'create'])->name('insert');
+        Route::delete('/delete/{id}', [PostController::class, 'destroy'])->name('delete');
+        Route::get('/edit/{id}', [PostController::class, 'edit'])->name('edit');
+        Route::put('/update', [PostController::class, 'update'])->name('update');
+    });
 });
 
 Route::middleware('auth.web')->get('/user', function () {
