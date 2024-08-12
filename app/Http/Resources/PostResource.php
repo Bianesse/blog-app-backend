@@ -15,21 +15,21 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $cRaw = $this->comments()->select('id','author','comment')->get();
-        return 
-        [
-            'id' => $this->id,
-            'title' => $this->title,
-            'content' => $this->content,
-            'author' => $this->users->name,
-            'created_at' => $this->created_at,
-            'comments' => $cRaw->map(function ($comment) {
-        return [
-            'id' => $comment->id,
-            'author' => $comment->users->name,
-            'comment' => $comment->comment,
-        ];
-    }),
-        ];
+        $cRaw = $this->comments()->select('id', 'author', 'comment')->get();
+        return
+            [
+                'id' => $this->id,
+                'title' => $this->title,
+                'content' => $this->content,
+                'author' => $this->users->name,
+                'created_at' => $this->created_at,
+                'comments' => $cRaw->map(function ($comment) {
+                    return [
+                        'id' => $comment->id,
+                        'author' => $comment->users->name,
+                        'comment' => $comment->comment,
+                    ];
+                }),
+            ];
     }
 }

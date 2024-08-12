@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
-    public function index()
-    {
-        
-    }
-
     public function webShow(Request $request)
     {
         $token = $request->cookie('jwt');
@@ -57,7 +52,7 @@ class PostController extends Controller
         return redirect()->back()->with('success','Successfully inputed data');
     }
 
-    public function edit(Post $post, string $id)
+    public function edit(string $id)
     {
         $data = Post::findOrFail($id);
         return view('formEdit', ['placeholder' => $data])->with("success","");
